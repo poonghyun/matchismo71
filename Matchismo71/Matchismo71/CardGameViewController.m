@@ -10,6 +10,8 @@
 
 @interface CardGameViewController ()
 
+// create collection of card views
+
 @end
 
 @implementation CardGameViewController
@@ -17,13 +19,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
+	// add gesture recognizers to collection of card views
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
+// add swipe method here; does it do both this one and the one in the view
 
 @end
