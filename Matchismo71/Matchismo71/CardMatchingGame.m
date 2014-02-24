@@ -11,7 +11,6 @@
 @interface CardMatchingGame()
 @property (nonatomic, readwrite) NSInteger score;
 @property (nonatomic, strong) NSMutableArray *cards; // of Card
-@property (strong, nonatomic, readwrite) NSString *matchString;
 @end
 
 @implementation CardMatchingGame
@@ -44,8 +43,6 @@
         }
     }
     
-    self.matchString = @""; // need to initialize string at beginning of game
-    
     return self;
 }
 
@@ -68,7 +65,6 @@ static const int COST_TO_CHOOSE = 1;
         } else {
             if (self.gameType == 1) { // 3-card
                 self.chosenCards = nil;
-                self.matchString = @"Flipped card.";
                 
                 for (Card *otherCard in self.cards) {
                     if (otherCard.isChosen && !otherCard.isMatched) {
@@ -84,22 +80,16 @@ static const int COST_TO_CHOOSE = 1;
                         for (Card *matchedCard in self.chosenCards) {
                             matchedCard.matched = YES;
                         }
-                        self.matchString = @"card, card, and card form a set!";
                     } else {
                         self.score -= MISMATCH_PENALTY;
                         for (Card *matchedCard in self.chosenCards) {
                             matchedCard.chosen = NO;
                         }
-                        self.matchString = @"card, card, and card don't form a set.";
                     }
-                } else if ([self.chosenCards count] == 1) {
-                    self.matchString = @"Flipped card and card.";
                 }
                 
                 self.chosenCards = [self.chosenCards arrayByAddingObject:card];
             } else if (self.gameType == 0) { // 2-card
-                self.matchString = [NSString stringWithFormat:@"Flipped a %@.", card.contents];
-                
                 for (Card *otherCard in self.cards) {
                     if (otherCard.isChosen && !otherCard.isMatched) {
                         int matchScore = [card match:@[otherCard]];
@@ -107,11 +97,9 @@ static const int COST_TO_CHOOSE = 1;
                             self.score += matchScore * MATCH_BONUS;
                             otherCard.matched = YES;
                             card.matched = YES;
-                            self.matchString = [NSString stringWithFormat:@"%@ and %@ match!", card.contents, otherCard.contents];
                         } else {
                             self.score -= MISMATCH_PENALTY;
                             otherCard.chosen = NO;
-                            self.matchString = [NSString stringWithFormat:@"%@ and %@ don't match.", card.contents, otherCard.contents];
                         }
                         break;
                     }
