@@ -108,7 +108,7 @@
         
         [self drawCorners];
     } else {
-        [[UIImage imageNamed:@"cardback"] drawInRect:self.bounds];
+        [[UIImage imageNamed:@"stanford"] drawInRect:self.bounds];
     }
 }
 
