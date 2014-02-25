@@ -8,7 +8,20 @@
 
 #import "PlayingCardGameViewController.h"
 #import "PlayingCardView.h"
+#import "PlayingCardDeck.h"
 
 @implementation PlayingCardGameViewController
+
+- (Deck *)createDeck
+{
+    return [[PlayingCardDeck alloc] init];
+}
+
+//- (IBAction)swipe:(UISwipeGestureRecognizer *)sender
+//{
+//    int chosenButtonIndex = [self.cardViews indexOfObject:sender];
+//    [self.game chooseCardAtIndex:chosenButtonIndex];
+//    
+//}
 
 @end

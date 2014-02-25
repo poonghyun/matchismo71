@@ -23,6 +23,22 @@
 	// add gesture recognizers to collection of card views
 }
 
-// add swipe method here; does it do both this one and the one in the view
+- (CardMatchingGame *)game
+{
+    if (!_game) _game = [[CardMatchingGame alloc] initWithCardCount:[self.cardViews count]
+                                                          usingDeck:[self createDeck]];
+    return _game;
+}
+
+- (IBAction)touchDealButton {
+    self.game = nil;
+    // need a redraw?
+}
+
+// abstract
+- (Deck *)createDeck
+{
+    return nil;
+}
 
 @end
