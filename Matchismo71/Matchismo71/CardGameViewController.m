@@ -7,27 +7,20 @@
 //
 
 #import "CardGameViewController.h"
-#import "CardView.h"
 
 @interface CardGameViewController ()
-
-@property (strong, nonatomic) IBOutletCollection(CardView) NSArray *cardViews;
 @property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
-
 @end
 
 @implementation CardGameViewController
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-	// add gesture recognizers to collection of card views
-}
-
 - (CardMatchingGame *)game
 {
-    if (!_game) _game = [[CardMatchingGame alloc] initWithCardCount:[self.cardViews count]
-                                                          usingDeck:[self createDeck]];
+    if (!_game) {
+        Deck *deck = [self createDeck];
+        _game = [[CardMatchingGame alloc] initWithCardCount:[deck size]
+                                                  usingDeck:deck];
+    }
     return _game;
 }
 

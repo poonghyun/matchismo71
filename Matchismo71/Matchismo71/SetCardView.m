@@ -35,10 +35,11 @@
     [self setNeedsDisplay];
 }
 
-//- (void)setShading:
-//{
-//    [self setNeedsDisplay];
-//}
+- (void)setShading:(NSDecimal)shading
+{
+    _shading = shading;
+    [self setNeedsDisplay];
+}
 
 - (void)setSelected:(BOOL)selected
 {

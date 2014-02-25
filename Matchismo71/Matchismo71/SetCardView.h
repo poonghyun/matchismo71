@@ -14,7 +14,7 @@
 @property (strong, nonatomic) NSString *symbol;
 @property (nonatomic) NSUInteger number;
 @property (strong, nonatomic) UIColor *color;
-//@property (nonatomic) decimal shading;
+@property (nonatomic) NSDecimal shading;
 @property (nonatomic) BOOL selected;
 
 - (void)tap:(UITapGestureRecognizer *)gesture;

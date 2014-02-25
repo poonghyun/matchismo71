@@ -16,4 +16,6 @@
 
 - (Card *)drawRandomCard;
 
+- (NSUInteger)size;
+
 @end
