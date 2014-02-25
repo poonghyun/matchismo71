@@ -7,10 +7,11 @@
 //
 
 #import "CardGameViewController.h"
+#import "CardView.h"
 
 @interface CardGameViewController ()
 
-// create collection of card views
+@property (strong, nonatomic) IBOutletCollection(CardView) NSArray *cardViews;
 
 @end
 
