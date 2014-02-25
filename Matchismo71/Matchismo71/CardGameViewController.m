@@ -12,6 +12,7 @@
 @interface CardGameViewController ()
 
 @property (strong, nonatomic) IBOutletCollection(CardView) NSArray *cardViews;
+@property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
 
 @end
 

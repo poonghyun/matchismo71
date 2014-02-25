@@ -8,7 +8,7 @@
         <scene sceneID="qUT-WD-4ql">
             <objects>
                 <tabBarController definesPresentationContext="YES" id="8wW-dK-muA" sceneMemberID="viewController">
-                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <nil key="simulatedBottomBarMetrics"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="07m-0o-oOe">
                         <rect key="frame" x="129" y="330" width="163" height="49"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
@@ -16,17 +16,17 @@
                     </tabBar>
                     <connections>
                         <segue destination="vXZ-lx-hvc" kind="relationship" relationship="viewControllers" id="cIA-xJ-LhM"/>
-                        <segue destination="XFU-fA-OKK" kind="relationship" relationship="viewControllers" id="Y6S-cg-qiz"/>
+                        <segue destination="Ola-gb-IRE" kind="relationship" relationship="viewControllers" id="z8V-KO-rgw"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TaW-ek-7DZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4" y="-100"/>
+            <point key="canvasLocation" x="18" y="-386"/>
         </scene>
-        <!--Card Game View Controller - Playing Card-->
+        <!--Set Card Game View Controller - Set-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
-                <viewController id="vXZ-lx-hvc" customClass="CardGameViewController" sceneMemberID="viewController">
+                <viewController id="vXZ-lx-hvc" customClass="SetCardGameViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="12L-Kx-zFD"/>
                         <viewControllerLayoutGuide type="bottom" id="YWi-gb-KIa"/>
@@ -34,32 +34,78 @@
                     <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ypE-eQ-Agw">
+                                <rect key="frame" x="20" y="472" width="50" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <state key="normal" title="Deal">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="touchDealButton" destination="vXZ-lx-hvc" eventType="touchUpInside" id="O7n-gA-Umh"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Score: 0" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2F9-Yh-aXl">
+                                <rect key="frame" x="94" y="472" width="206" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Playing Card" id="un4-m0-pJg"/>
+                    <tabBarItem key="tabBarItem" title="Set" id="un4-m0-pJg"/>
+                    <connections>
+                        <outlet property="scoreLabel" destination="2F9-Yh-aXl" id="WgQ-VK-HWP"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="557" y="-417"/>
+            <point key="canvasLocation" x="557" y="-707"/>
         </scene>
-        <!--Card Game View Controller - Set-->
-        <scene sceneID="tju-uv-YrR">
+        <!--Playing Card Game View Controller - Playing Card-->
+        <scene sceneID="H2S-H2-bk9">
             <objects>
-                <viewController id="XFU-fA-OKK" customClass="CardGameViewController" sceneMemberID="viewController">
+                <viewController id="Ola-gb-IRE" customClass="PlayingCardGameViewController" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="Qt3-ia-MYZ"/>
-                        <viewControllerLayoutGuide type="bottom" id="put-mG-obm"/>
+                        <viewControllerLayoutGuide type="top" id="w5d-3E-7JK"/>
+                        <viewControllerLayoutGuide type="bottom" id="euy-kp-04P"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="t7i-C3-mOy">
+                    <view key="view" contentMode="scaleToFill" id="uef-lm-l2a">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QB7-oz-OGs">
+                                <rect key="frame" x="20" y="472" width="50" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <state key="normal" title="Deal">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="touchDealButton" destination="Ola-gb-IRE" eventType="touchUpInside" id="8d0-3T-azf"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Score: 0" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E9L-6T-fzg">
+                                <rect key="frame" x="94" y="472" width="206" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Set" id="Shb-mf-TLP"/>
+                    <tabBarItem key="tabBarItem" title="Playing Card" id="pW3-Q2-3zD"/>
+                    <connections>
+                        <outlet property="scoreLabel" destination="E9L-6T-fzg" id="d3O-Og-QOK"/>
+                    </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Nb0-1Q-twb" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="rK0-O4-5gd" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="557" y="232"/>
+            <point key="canvasLocation" x="557" y="-46"/>
         </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
