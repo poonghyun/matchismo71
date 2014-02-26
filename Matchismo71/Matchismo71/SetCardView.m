@@ -69,6 +69,11 @@
     [[UIColor blackColor] setStroke];
     [roundedRect stroke];
 
+    if (self.selected) {
+        [[UIColor yellowColor] setStroke];
+        [roundedRect stroke];
+    }
+
     [self drawSymbols];
 }
 
