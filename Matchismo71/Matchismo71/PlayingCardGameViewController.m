@@ -46,7 +46,13 @@
     int chosenButtonIndex = [self.gestureRecognizers indexOfObject:sender];
     [self.game chooseCardAtIndex:chosenButtonIndex];
     PlayingCardView *cardView = (PlayingCardView *)self.playingCardViews[chosenButtonIndex];
-    cardView.faceUp = !cardView.faceUp;
+    [UIView transitionWithView:cardView
+        duration:0.5
+        options:UIViewAnimationOptionsTransitionFlipFromLeft
+        animations:^{
+            cardView.faceUp = !cardView.faceUp;
+        }
+    ];
     NSLog(@"%d", self.game.score);
 }
 

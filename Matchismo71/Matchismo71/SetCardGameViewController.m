@@ -9,6 +9,12 @@
 #import "SetCardGameViewController.h"
 #import "SetCardView.h"
 #import "SetCardDeck.h"
+#import "SetCard.h"
+
+@interface SetCardGameViewController ()
+@property (strong, nonatomic) IBOutletCollection(SetCardView) NSArray *setCardViews;
+@property (strong, nonatomic) NSMutableArray *gestureRecognizers;
+@end
 
 @implementation SetCardGameViewController
 
