@@ -44,24 +44,24 @@ static const int TYPES = 3;
     }
 }
 
-- (NSString *)contents
-{
-    NSString *cardContents = @"";
-    for (NSUInteger i = 0; i < self.number; i++) {
-        cardContents = [cardContents stringByAppendingString:self.symbol];
-    }
-    
-    return cardContents;
-}
+//- (NSString *)contents
+//{
+//    NSString *cardContents = @"";
+//    for (NSUInteger i = 0; i < self.number; i++) {
+//        cardContents = [cardContents stringByAppendingString:self.symbol];
+//    }
+//    
+//    return cardContents;
+//}
 
 + (NSArray *)validSymbols
 {
-    return @[@"✚",@"☁︎",@"♞"];
+    return @[@"oval",@"squiggle",@"diamond"];
 }
 
 + (NSArray *)validColors
 {
-    return @[@"red",@"green",@"purple"];
+    return @[@"red",@"green",@"blue"];
 }
 
 + (NSUInteger)maxShading

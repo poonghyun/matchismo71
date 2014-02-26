@@ -16,6 +16,6 @@
 @property (nonatomic) BOOL faceUp;
 
 - (void)pinch:(UIPinchGestureRecognizer *)gesture;
-- (void)swipe:(UISwipeGestureRecognizer *)gesture;
+//- (void)swipe:(UISwipeGestureRecognizer *)gesture;
 
 @end

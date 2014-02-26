@@ -66,10 +66,10 @@
     }
 }
 
-- (void)swipe:(UISwipeGestureRecognizer *)gesture
-{
-    self.faceUp = !self.faceUp;
-}
+//- (void)swipe:(UISwipeGestureRecognizer *)gesture
+//{
+//    self.faceUp = !self.faceUp;
+//}
 
 #pragma mark - Drawing
 
