@@ -12,4 +12,6 @@
 
 @interface CardView : UIView
 
+@property (nonatomic) BOOL matched;
+
 @end

@@ -9,7 +9,6 @@
 #import "CardGameViewController.h"
 
 @interface CardGameViewController ()
-@property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
 @end
 
 @implementation CardGameViewController

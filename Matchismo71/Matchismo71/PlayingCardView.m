@@ -110,6 +110,11 @@
     } else {
         [[UIImage imageNamed:@"stanford"] drawInRect:self.bounds];
     }
+    
+    if (self.matched) {
+        [self setUserInteractionEnabled:NO];
+        [self setAlpha:0.5];
+    }
 }
 
 - (void)pushContextAndRotateUpsideDown

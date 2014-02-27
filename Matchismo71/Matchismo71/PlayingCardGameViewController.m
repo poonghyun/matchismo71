@@ -13,6 +13,7 @@
 
 @interface PlayingCardGameViewController ()
 @property (strong, nonatomic) IBOutletCollection(PlayingCardView) NSArray *playingCardViews;
+@property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
 @property (strong, nonatomic) NSMutableArray *gestureRecognizers;
 @end
 
@@ -47,13 +48,25 @@
     [self.game chooseCardAtIndex:chosenButtonIndex];
     PlayingCardView *cardView = (PlayingCardView *)self.playingCardViews[chosenButtonIndex];
     [UIView transitionWithView:cardView
-        duration:0.5
-        options:UIViewAnimationOptionsTransitionFlipFromLeft
-        animations:^{
-            cardView.faceUp = !cardView.faceUp;
+                      duration:0.3
+                       options:UIViewAnimationOptionTransitionFlipFromLeft
+                    animations:^{
+                        cardView.faceUp = !cardView.faceUp;
+                    }
+                    completion:nil];
+    // for each card, if it is matched in game set the corresponding view to matched
+    // also check for unmatched cards
+    for (int i = 0; i < [self.playingCardViews count]; i++) {
+        // reuse ok?
+        cardView = (PlayingCardView *)self.playingCardViews[i];
+        if ([self.game cardAtIndex:i].matched) {
+            cardView.matched = YES;
         }
-    ];
-    NSLog(@"%d", self.game.score);
+        if (![self.game cardAtIndex:i].isChosen) {
+            cardView.faceUp = NO;
+        }
+    }
+    self.scoreLabel.text = [NSString stringWithFormat:@"Score: %d", self.game.score];
 }
 
 - (Deck *)createDeck

@@ -10,6 +10,12 @@
 
 @implementation CardView
 
+- (void)setMatched:(BOOL)matched
+{
+    _matched = matched;
+    [self setNeedsDisplay];
+}
+
 #pragma mark - Initialization
 
 - (void)setup
