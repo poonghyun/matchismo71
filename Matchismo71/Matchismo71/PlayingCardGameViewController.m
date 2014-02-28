@@ -34,17 +34,23 @@
 - (void)initializeCards
 {
     for (PlayingCardView *cardView in self.playingCardViews) {
-        // initialize card view with corresponding card in game
-        PlayingCard *card = (PlayingCard *)[self.game cardAtIndex:[self.playingCardViews indexOfObject:cardView]];
-        cardView.rank = card.rank;
-        cardView.suit = card.suit;
-        cardView.faceUp = NO;
-        cardView.matched = NO;
-        
-        // add swipes
-        UISwipeGestureRecognizer *gesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipe:)];
-        [cardView addGestureRecognizer:gesture];
-        [self.gestureRecognizers addObject:gesture];
+        [UIView transitionWithView:cardView
+                          duration:0.8
+                           options:UIViewAnimationOptionTransitionCrossDissolve
+                        animations:^{PlayingCard *card = (PlayingCard *)[self.game cardAtIndex:[self.playingCardViews indexOfObject:cardView]];
+                            cardView.rank = card.rank;
+                            cardView.suit = card.suit;
+                            cardView.faceUp = NO;
+                            cardView.matched = NO;
+                            
+                            
+                            // add swipes
+                            UISwipeGestureRecognizer *gesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipe:)];
+                            [cardView addGestureRecognizer:gesture];
+                            [self.gestureRecognizers addObject:gesture];
+                        }
+                        completion:nil];
+
     }
 }
 

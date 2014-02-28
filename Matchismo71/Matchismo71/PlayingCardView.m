@@ -114,6 +114,9 @@
     if (self.matched) {
         [self setUserInteractionEnabled:NO];
         [self setAlpha:0.5];
+    } else {
+        [self setUserInteractionEnabled:YES];
+        [self setAlpha:1.0];
     }
 }
 
