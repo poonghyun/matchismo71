@@ -28,13 +28,19 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self initializeCards];
+}
+
+- (void)initializeCards
+{
     for (PlayingCardView *cardView in self.playingCardViews) {
         // initialize card view with corresponding card in game
         PlayingCard *card = (PlayingCard *)[self.game cardAtIndex:[self.playingCardViews indexOfObject:cardView]];
         cardView.rank = card.rank;
         cardView.suit = card.suit;
         cardView.faceUp = NO;
-
+        cardView.matched = NO;
+        
         // add swipes
         UISwipeGestureRecognizer *gesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipe:)];
         [cardView addGestureRecognizer:gesture];
@@ -59,7 +65,7 @@
     for (int i = 0; i < [self.playingCardViews count]; i++) {
         // reuse ok?
         cardView = (PlayingCardView *)self.playingCardViews[i];
-        if ([self.game cardAtIndex:i].matched) {
+        if ([self.game cardAtIndex:i].isMatched) {
             cardView.matched = YES;
         }
         if (![self.game cardAtIndex:i].isChosen) {
@@ -72,6 +78,12 @@
 - (Deck *)createDeck
 {
     return [[PlayingCardDeck alloc] init];
+}
+
+- (IBAction)redeal {
+    self.game = nil;
+    self.gestureRecognizers = nil;
+    [self initializeCards];
 }
 
 @end

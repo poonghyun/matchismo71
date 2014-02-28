@@ -29,22 +29,34 @@
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
-	for (SetCardView *cardView in self.setCardViews) {
-        SetCard *card = (SetCard *)[self.game cardAtIndex:[self.setCardViews indexOfObject:cardView]];
-        if ([card.color isEqualToString:@"red"]) {
-            cardView.color = [UIColor redColor];
-        } else if ([card.color isEqualToString:@"green"]) {
-            cardView.color = [UIColor greenColor];
-        } else if ([card.color isEqualToString:@"blue"]) {
-            cardView.color = [UIColor blueColor];
-        }
-        cardView.number = card.number;
-        cardView.shading = card.shading * 0.5;
-        cardView.symbol = card.symbol;
-    
-        UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap:)];
-        [cardView addGestureRecognizer:gesture];
-        [self.gestureRecognizers addObject:gesture];
+    [self initializeCards];
+}
+
+- (void)initializeCards
+{
+    for (SetCardView *cardView in self.setCardViews) {
+        [UIView transitionWithView:cardView
+                          duration:0.8
+                           options:UIViewAnimationOptionTransitionCrossDissolve
+                        animations:^{SetCard *card = (SetCard *)[self.game cardAtIndex:[self.setCardViews indexOfObject:cardView]];
+                            if ([card.color isEqualToString:@"red"]) {
+                                cardView.color = [UIColor redColor];
+                            } else if ([card.color isEqualToString:@"green"]) {
+                                cardView.color = [UIColor greenColor];
+                            } else if ([card.color isEqualToString:@"blue"]) {
+                                cardView.color = [UIColor blueColor];
+                            }
+                            cardView.number = card.number;
+                            cardView.shading = card.shading;
+                            cardView.symbol = card.symbol;
+                            cardView.selected = NO;
+                            cardView.matched = NO;
+                            
+                            UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap:)];
+                            [cardView addGestureRecognizer:gesture];
+                            [self.gestureRecognizers addObject:gesture];}
+                        completion:nil];
+
     }
 }
 
@@ -57,6 +69,20 @@
     [UIView animateWithDuration:0.3 animations:^{
         cardView.selected = !cardView.selected;
     }];
+    for (int i = 0; i < [self.setCardViews count]; i++) {
+        // reuse ok?
+        cardView = (SetCardView *)self.setCardViews[i];
+        if (![self.game cardAtIndex:i].isChosen) {
+            cardView.selected = NO;
+        }
+        if ([self.game cardAtIndex:i].isMatched) {
+            [UIView animateWithDuration:1.0
+                                  delay:0.0
+                                options:UIViewAnimationOptionCurveLinear
+                             animations:^{ cardView.alpha = 0.0; }
+                             completion:^(BOOL ended){ if (ended) [cardView removeFromSuperview]; }];
+        }
+    }
     self.scoreLabel.text = [NSString stringWithFormat:@"Score: %d", self.game.score];
 }
 
@@ -69,6 +95,12 @@
 - (Deck *)createDeck
 {
     return [[SetCardDeck alloc] init];
+}
+
+- (IBAction)redeal {
+    self.game = nil;
+    self.gestureRecognizers = nil;
+    [self initializeCards];
 }
 
 @end

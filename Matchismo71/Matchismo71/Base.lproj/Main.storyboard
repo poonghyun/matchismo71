@@ -43,7 +43,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="touchDealButton" destination="vXZ-lx-hvc" eventType="touchUpInside" id="O7n-gA-Umh"/>
+                                    <action selector="redeal" destination="vXZ-lx-hvc" eventType="touchUpInside" id="owq-Ok-DxL"/>
                                 </connections>
                             </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Score: 0" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2F9-Yh-aXl">
@@ -120,6 +120,36 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0QQ-ef-31b" customClass="SetCardView">
+                                <rect key="frame" x="20" y="304" width="86" height="60"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            </view>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="suG-Aq-1CQ" customClass="SetCardView">
+                                <rect key="frame" x="117" y="304" width="86" height="60"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            </view>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9Fw-MW-M48" customClass="SetCardView">
+                                <rect key="frame" x="214" y="304" width="86" height="60"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            </view>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oS9-tv-ESS" customClass="SetCardView">
+                                <rect key="frame" x="20" y="372" width="86" height="60"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            </view>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vXF-oQ-Zvk" customClass="SetCardView">
+                                <rect key="frame" x="117" y="372" width="86" height="60"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            </view>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="M9d-bZ-qQl" customClass="SetCardView">
+                                <rect key="frame" x="214" y="372" width="86" height="60"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.40000000596046448" green="0.80000001192092896" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
@@ -138,6 +168,12 @@
                         <outletCollection property="setCardViews" destination="H8n-TI-4ti" id="yoC-cI-AW6"/>
                         <outletCollection property="setCardViews" destination="06i-qU-XZz" id="16P-Py-BSV"/>
                         <outletCollection property="setCardViews" destination="Ksl-go-eu9" id="7Am-Gg-OZT"/>
+                        <outletCollection property="setCardViews" destination="9Fw-MW-M48" id="pHq-k1-XFw"/>
+                        <outletCollection property="setCardViews" destination="suG-Aq-1CQ" id="yjS-rV-fus"/>
+                        <outletCollection property="setCardViews" destination="0QQ-ef-31b" id="fy3-wO-qiv"/>
+                        <outletCollection property="setCardViews" destination="M9d-bZ-qQl" id="dT0-cv-7N5"/>
+                        <outletCollection property="setCardViews" destination="vXF-oQ-Zvk" id="558-R1-sxA"/>
+                        <outletCollection property="setCardViews" destination="oS9-tv-ESS" id="Xma-8G-ZX3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
@@ -164,7 +200,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="touchDealButton" destination="Ola-gb-IRE" eventType="touchUpInside" id="8d0-3T-azf"/>
+                                    <action selector="redeal" destination="Ola-gb-IRE" eventType="touchUpInside" id="891-zH-8nk"/>
                                 </connections>
                             </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Score: 0" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E9L-6T-fzg">

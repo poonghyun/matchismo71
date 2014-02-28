@@ -23,15 +23,16 @@
     return _game;
 }
 
-- (IBAction)touchDealButton {
-    self.game = nil;
-    // need a redraw?
-}
-
 // abstract
 - (Deck *)createDeck
 {
     return nil;
+}
+
+// gather the cards
+- (IBAction)pinch:(UIPinchGestureRecognizer *)sender
+{
+    
 }
 
 @end

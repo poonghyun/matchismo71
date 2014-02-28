@@ -79,53 +79,81 @@
 
 - (CGFloat)cardWidth { return self.bounds.size.width; }
 - (CGFloat)cardHeight { return self.bounds.size.height; }
-// the buffer space between the symbol and sides of the card
+// the buffer space between the symbol and top/bottom of the card
 - (CGFloat)buffer { return [self cardHeight] * 0.15; }
 // the buffer space between symbols
 - (CGFloat)innerBuffer {return [self cardWidth] * 0.05; }
 // horizontal radius of a symbol
 - (CGFloat)symbolRadius { return ([self cardWidth] - 2 * [self buffer] - 2 * [self innerBuffer])/6; }
+- (CGFloat)symbolWidth { return 2 * [self symbolRadius]; }
+- (CGFloat)symbolHeight { return [self cardHeight] - 2 * [self buffer]; }
 
 - (void)drawSymbols
 {
-    // need to set fill alpha based on set card
-    [self.color setFill];
     [self.color setStroke];
-
-    // make sub-rects for drawing depending on number
-    //NSMutableArray *symbolContainers = [[NSMutableArray alloc] init];
-    if (self.number == 0) {
-        
-    } else if (self.number == 1) {
-
-    } else if (self.number == 2) {
-
+    // no need to set fill if shading is 0
+    if (self.shading == 1) {
+        [[self.color colorWithAlphaComponent:0.5] setFill];
+    } else if (self.shading == 2) {
+        [self.color setFill];
     }
 
-    if ([self.symbol isEqualToString:@"oval"]) {
-        UIBezierPath *oval = [UIBezierPath bezierPathWithOvalInRect:CGRectMake([self cardWidth]/2 - [self symbolRadius], [self buffer], 2 * [self symbolRadius], [self cardHeight] - 2 * [self buffer])];
+    if (self.number == 0) {
+        CGRect center = CGRectMake([self cardWidth]/2 - [self symbolRadius], [self buffer], [self symbolRadius] * 2, [self cardHeight] - 2 * [self buffer]);
+        UIBezierPath *centerShape = [self drawShape:center];
+        [centerShape stroke];
+        [centerShape fill];
+    } else if (self.number == 1) {
+        CGRect left = CGRectMake([self cardWidth]/2 - [self innerBuffer] * 0.5 - [self symbolWidth], [self buffer], [self symbolWidth], [self symbolHeight]);
+        CGRect right = CGRectMake([self cardWidth]/2 + [self innerBuffer] * 0.5, [self buffer], [self symbolWidth], [self symbolHeight]);
+        UIBezierPath *leftShape = [self drawShape:left];
+        UIBezierPath *rightShape = [self drawShape:right];
+        [leftShape stroke];
+        [leftShape fill];
+        [rightShape stroke];
+        [rightShape fill];
+    } else if (self.number == 2) {
+        CGRect left = CGRectMake([self buffer], [self buffer], [self symbolWidth], [self symbolHeight]);
+        CGRect center = CGRectMake([self cardWidth]/2 - [self symbolRadius], [self buffer], [self symbolRadius] * 2, [self cardHeight] - 2 * [self buffer]);
+        CGRect right = CGRectMake([self cardWidth] - [self buffer] - [self symbolWidth], [self buffer], [self symbolWidth], [self symbolHeight]);
+        
+        UIBezierPath *leftShape = [self drawShape:left];
+        UIBezierPath *centerShape = [self drawShape:center];
+        UIBezierPath *rightShape = [self drawShape:right];
+        [leftShape stroke];
+        [leftShape fill];
+        [centerShape stroke];
+        [centerShape fill];
+        [rightShape stroke];
+        [rightShape fill];
+    }
+}
 
-        [oval fill];
-        [oval stroke];
+- (UIBezierPath *)drawShape:(CGRect)rect
+{
+    if ([self.symbol isEqualToString:@"oval"]) {
+        UIBezierPath *oval = [UIBezierPath bezierPathWithOvalInRect:rect];
+        
+        return oval;
     } else if ([self.symbol isEqualToString:@"squiggle"]) {
         UIBezierPath *squiggle = [[UIBezierPath alloc] init];
-        [squiggle moveToPoint:CGPointMake([self cardWidth]/2 - [self symbolRadius], [self buffer])];
-        [squiggle addCurveToPoint:CGPointMake([self cardWidth]/2 + [self symbolRadius], [self cardHeight] - [self buffer]) controlPoint1:CGPointMake([self cardWidth]/2 - [self symbolRadius], [self cardHeight] - [self buffer]) controlPoint2:CGPointMake([self cardWidth]/2, [self cardHeight]/2)];
-        [squiggle addCurveToPoint:CGPointMake([self cardWidth]/2 - [self symbolRadius], [self buffer]) controlPoint1:CGPointMake([self cardHeight] - [self buffer], [self buffer]) controlPoint2:CGPointMake([self cardWidth]/2, [self cardHeight]/2)];
+        [squiggle moveToPoint:rect.origin];
+        [squiggle addCurveToPoint:CGPointMake(rect.origin.x + rect.size.width, rect.origin.y + rect.size.height) controlPoint1:CGPointMake(rect.origin.x, rect.origin.y + rect.size.height) controlPoint2:CGPointMake(rect.origin.x + rect.size.width/2, rect.origin.y + rect.size.height/2)];
+        [squiggle addCurveToPoint:rect.origin controlPoint1:CGPointMake(rect.origin.x + rect.size.width, rect.origin.y) controlPoint2:CGPointMake(rect.origin.x + rect.size.width/2, rect.origin.y + rect.size.height/2)];
         [squiggle closePath];
-
-        [squiggle fill];
-        [squiggle stroke];
+        
+        return squiggle;
     } else if ([self.symbol isEqualToString:@"diamond"]) {
         UIBezierPath *diamond = [[UIBezierPath alloc] init];
-        [diamond moveToPoint:CGPointMake([self cardWidth]/2, [self buffer])];
-        [diamond addLineToPoint:CGPointMake([self cardWidth]/2 - [self symbolRadius], [self cardHeight]/2)];
-        [diamond addLineToPoint:CGPointMake([self cardWidth]/2, [self cardHeight] - [self buffer])];
-        [diamond addLineToPoint:CGPointMake([self cardWidth]/2 + [self symbolRadius], [self cardHeight]/2)];
+        [diamond moveToPoint:CGPointMake(rect.origin.x + rect.size.width/2, rect.origin.y)];
+        [diamond addLineToPoint:CGPointMake(rect.origin.x, rect.origin.y + rect.size.height/2)];
+        [diamond addLineToPoint:CGPointMake(rect.origin.x + rect.size.width/2, rect.origin.y + rect.size.height)];
+        [diamond addLineToPoint:CGPointMake(rect.origin.x + rect.size.width, rect.origin.y + rect.size.height/2)];
         [diamond closePath];
-
-        [diamond fill];
-        [diamond stroke];
+        
+        return diamond;
+    } else {
+        return nil;
     }
 }
 
