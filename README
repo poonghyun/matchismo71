@@ -1,6 +1,7 @@
 http://git-scm.com/book/en/Git-Basics-Working-with-Remotes
 
-figure out grid
-create cardviews in grid, in code
-get three more cards
 dynamic animator/3 finger pinch
+fix out of bounds card issue
+get animations working on match and redeal and adding cards
+add a "no more cards" message when there are no more cards and redeal is pressed
+autolayout

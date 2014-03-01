@@ -52,7 +52,7 @@
 
 #pragma mark - View initialization
 
-#define STARTING_CARDS 20
+#define STARTING_CARDS 12
 #define CELL_ASPECT_RATIO 1.5
 
 - (void)viewDidLoad
@@ -149,24 +149,34 @@
     [self.game chooseCardAtIndex:chosenButtonIndex];
     SetCardView *cardView = (SetCardView *)self.setCardViews[chosenButtonIndex];
     cardView.selected = !cardView.selected;
+    BOOL foundMatch = NO;
     for (SetCardView *card in self.cardSpace.subviews) {
         // if not chosen make it unchosen
         // if matched remove from superview and redraw grid
-        
-//        if (![self.game cardAtIndex:i].isChosen) {
-//            cardView.selected = NO;
-//        }
-//        if ([self.game cardAtIndex:i].isMatched) {
-//            self.cardCount -= 1;
-//            [UIView animateWithDuration:1.0
-//                                  delay:0.0
-//                                options:UIViewAnimationOptionCurveLinear
-//                             animations:^{ cardView.alpha = 0.0; }
-//                             completion:^(BOOL ended){
-//                                 if (ended) {
-//                                     [cardView removeFromSuperview];
-//                                 } }];
-//        }
+        int cardIndex = [self.setCardViews indexOfObject:card];
+        if (![self.game cardAtIndex:cardIndex].isChosen) {
+            card.selected = NO;
+        }
+        if ([self.game cardAtIndex:cardIndex].isMatched) {
+            self.cardCount -= 1;
+            foundMatch = YES;
+            card.matched = YES;
+            [UIView animateWithDuration:1.0
+                                  delay:0.0
+                                options:UIViewAnimationOptionCurveLinear
+                             animations:^{ card.alpha = 0.0; }
+                             completion:^(BOOL ended){
+                                 if (ended) {
+                                     [card removeFromSuperview];
+                                 } }];
+        }
+    }
+    if (foundMatch) {
+        [UIView animateWithDuration:1.0
+                              delay:1.0
+                            options:UIViewAnimationOptionCurveLinear
+                         animations:^{}
+                         completion:^(BOOL finished){ if (finished) [self placeCardsInGrid]; }];
     }
     self.scoreLabel.text = [NSString stringWithFormat:@"Score: %d", self.game.score];
 }
@@ -180,24 +190,22 @@
 
 #pragma mark - Redeal and add card
 
-//- (IBAction)moreCards:(UIButton *)sender {
-//    // add three cards to cardspace view if valid
-//    for (int i = 0; i < 3; i++) {
-//        SetCardView * cardView = self.setCardViews[self.cardCount + i];
-//        [self.cardSpace addSubview:cardView];
-//    }
-//    self.cardCount += 3;
-//}
+- (IBAction)moreCards:(UIButton *)sender {
+    if (self.cardCount < 81) {
+        self.cardCount += 3;
+        [self placeCardsInGrid];
+    }
+}
 
-//- (IBAction)redeal {
-//    self.game = nil;
-//    self.gestureRecognizers = nil;
-//    self.grid = nil;
-//    self.setCardViews = nil;
-//    for (SetCardView *subview in self.cardSpace.subviews) {
-//        [subview removeFromSuperview];
-//    }
-//    [self initializeCards];
-//}
+- (IBAction)redeal {
+    self.game = nil;
+    self.gestureRecognizers = nil;
+    self.grid = nil;
+    self.setCardViews = nil;
+    for (SetCardView *subview in self.cardSpace.subviews) {
+        [subview removeFromSuperview];
+    }
+    [self initializeCards];
+}
 
 @end
