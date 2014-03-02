@@ -1,7 +1,8 @@
 http://git-scm.com/book/en/Git-Basics-Working-with-Remotes
 
 dynamic animator/3 finger pinch
-fix out of bounds card issue
 get animations working on match and redeal and adding cards
-add a "no more cards" message when there are no more cards and redeal is pressed
-autolayout
+
+buttons disappearing when switching between games
+buttons not enabled for right side
+making grid for playingcards

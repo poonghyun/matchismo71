@@ -16,8 +16,10 @@
 @property (strong, nonatomic) NSMutableArray *setCardViews;
 @property (weak, nonatomic) IBOutlet UIView *cardSpace;
 @property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
+@property (weak, nonatomic) IBOutlet UILabel *errorLabel;
 @property (strong, nonatomic) NSMutableArray *gestureRecognizers;
 @property (nonatomic) NSUInteger cardCount;
+@property (nonatomic) NSUInteger unmatchedCardCount;
 @property (strong, nonatomic) Grid *grid;
 @end
 
@@ -61,6 +63,11 @@
     [self initializeCards];
 }
 
+- (void)viewDidLayoutSubviews
+{
+    [self placeCardsInGrid];
+}
+
 - (void)initializeCards
 {
     // initialize all cards
@@ -68,6 +75,7 @@
     // place cards in cardspace (reusable)
     
     self.cardCount = STARTING_CARDS;
+    self.unmatchedCardCount = 81;
     
     for (int i = 0; i < 81; i++) {
         SetCardView *cardView = [[SetCardView alloc] init];
@@ -105,6 +113,7 @@
     self.grid.cellAspectRatio = CELL_ASPECT_RATIO;
     self.grid.size = self.cardSpace.frame.size;
     self.grid.minimumNumberOfCells = self.cardCount;
+    self.grid.maxCellWidth = self.cardSpace.frame.size.width/3;
     
     // calculate buffer space between cards
     float freespaceX = fmodf(self.cardSpace.frame.size.width, self.grid.cellSize.width);
@@ -159,25 +168,13 @@
         }
         if ([self.game cardAtIndex:cardIndex].isMatched) {
             self.cardCount -= 1;
+            self.unmatchedCardCount -= 1;
             foundMatch = YES;
             card.matched = YES;
-            [UIView animateWithDuration:1.0
-                                  delay:0.0
-                                options:UIViewAnimationOptionCurveLinear
-                             animations:^{ card.alpha = 0.0; }
-                             completion:^(BOOL ended){
-                                 if (ended) {
-                                     [card removeFromSuperview];
-                                 } }];
+            [card removeFromSuperview];
         }
     }
-    if (foundMatch) {
-        [UIView animateWithDuration:1.0
-                              delay:1.0
-                            options:UIViewAnimationOptionCurveLinear
-                         animations:^{}
-                         completion:^(BOOL finished){ if (finished) [self placeCardsInGrid]; }];
-    }
+    if (foundMatch) [self placeCardsInGrid];
     self.scoreLabel.text = [NSString stringWithFormat:@"Score: %d", self.game.score];
 }
 
@@ -191,9 +188,11 @@
 #pragma mark - Redeal and add card
 
 - (IBAction)moreCards:(UIButton *)sender {
-    if (self.cardCount < 81) {
+    if (self.cardCount < self.unmatchedCardCount) {
         self.cardCount += 3;
         [self placeCardsInGrid];
+    } else {
+        self.errorLabel.text = @"No more cards!";
     }
 }
 
@@ -202,6 +201,7 @@
     self.gestureRecognizers = nil;
     self.grid = nil;
     self.setCardViews = nil;
+    self.errorLabel.text = @"";
     for (SetCardView *subview in self.cardSpace.subviews) {
         [subview removeFromSuperview];
     }
