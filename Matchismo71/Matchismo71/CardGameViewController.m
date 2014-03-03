@@ -29,10 +29,4 @@
     return nil;
 }
 
-// gather the cards
-- (IBAction)pinch:(UIPinchGestureRecognizer *)sender
-{
-    
-}
-
 @end

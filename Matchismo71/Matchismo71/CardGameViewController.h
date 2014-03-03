@@ -18,6 +18,4 @@
 
 - (Deck *)createDeck; // abstract
 
-- (IBAction)pinch:(UIPinchGestureRecognizer *)sender;
-
 @end

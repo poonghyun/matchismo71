@@ -12,7 +12,7 @@
 #import "SetCard.h"
 #import "Grid.h"
 
-@interface SetCardGameViewController ()
+@interface SetCardGameViewController () <UIDynamicAnimatorDelegate>
 @property (strong, nonatomic) NSMutableArray *setCardViews;
 @property (weak, nonatomic) IBOutlet UIView *cardSpace;
 @property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
@@ -21,6 +21,8 @@
 @property (nonatomic) NSUInteger cardCount;
 @property (nonatomic) NSUInteger unmatchedCardCount;
 @property (strong, nonatomic) Grid *grid;
+@property (strong, nonatomic) UIDynamicAnimator *animator;
+@property (nonatomic) BOOL cardsGathered;
 @end
 
 @implementation SetCardGameViewController
@@ -52,6 +54,15 @@
     return _grid;
 }
 
+- (UIDynamicAnimator *)animator
+{
+    if (!_animator) {
+        _animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.cardSpace];
+        _animator.delegate = self;
+    }
+    return _animator;
+}
+
 #pragma mark - View initialization
 
 #define STARTING_CARDS 12
@@ -76,6 +87,7 @@
     
     self.cardCount = STARTING_CARDS;
     self.unmatchedCardCount = 81;
+    self.cardsGathered = NO;
     
     for (int i = 0; i < 81; i++) {
         SetCardView *cardView = [[SetCardView alloc] init];
@@ -152,30 +164,53 @@
 
 #pragma mark - Gestures
 
-- (IBAction)tap:(UITapGestureRecognizer *)sender
+- (void)tap:(UITapGestureRecognizer *)sender
 {
-    int chosenButtonIndex = [self.gestureRecognizers indexOfObject:sender];
-    [self.game chooseCardAtIndex:chosenButtonIndex];
-    SetCardView *cardView = (SetCardView *)self.setCardViews[chosenButtonIndex];
-    cardView.selected = !cardView.selected;
-    BOOL foundMatch = NO;
-    for (SetCardView *card in self.cardSpace.subviews) {
-        // if not chosen make it unchosen
-        // if matched remove from superview and redraw grid
-        int cardIndex = [self.setCardViews indexOfObject:card];
-        if (![self.game cardAtIndex:cardIndex].isChosen) {
-            card.selected = NO;
+    if (self.cardsGathered) {
+        
+    } else {
+        //    NSLog(@"tapped");
+        int chosenButtonIndex = [self.gestureRecognizers indexOfObject:sender];
+        [self.game chooseCardAtIndex:chosenButtonIndex];
+        SetCardView *cardView = (SetCardView *)self.setCardViews[chosenButtonIndex];
+        cardView.selected = !cardView.selected;
+        BOOL foundMatch = NO;
+        for (SetCardView *card in self.cardSpace.subviews) {
+            // if not chosen make it unchosen
+            // if matched remove from superview and redraw grid
+            int cardIndex = [self.setCardViews indexOfObject:card];
+            if (![self.game cardAtIndex:cardIndex].isChosen) {
+                card.selected = NO;
+            }
+            if ([self.game cardAtIndex:cardIndex].isMatched) {
+                self.cardCount -= 1;
+                self.unmatchedCardCount -= 1;
+                foundMatch = YES;
+                card.matched = YES;
+                [card removeFromSuperview];
+            }
         }
-        if ([self.game cardAtIndex:cardIndex].isMatched) {
-            self.cardCount -= 1;
-            self.unmatchedCardCount -= 1;
-            foundMatch = YES;
-            card.matched = YES;
-            [card removeFromSuperview];
-        }
+        if (foundMatch) [self placeCardsInGrid];
+        self.scoreLabel.text = [NSString stringWithFormat:@"Score: %d", self.game.score];
     }
-    if (foundMatch) [self placeCardsInGrid];
-    self.scoreLabel.text = [NSString stringWithFormat:@"Score: %d", self.game.score];
+}
+
+- (void)pinch:(UIPinchGestureRecognizer *)sender
+{
+    CGPoint center = self.cardSpace.center;
+    
+}
+
+#pragma mark - Dynamic animation
+
+- (void)dynamicAnimatorDidPause:(UIDynamicAnimator *)animator
+{
+    
+}
+
+- (void)dynamicAnimatorWillResume:(UIDynamicAnimator *)animator
+{
+    
 }
 
 #pragma mark - Miscellaneous
@@ -185,7 +220,7 @@
     return [[SetCardDeck alloc] init];
 }
 
-#pragma mark - Redeal and add card
+#pragma mark - Redeal and add card buttons
 
 - (IBAction)moreCards:(UIButton *)sender {
     if (self.cardCount < self.unmatchedCardCount) {
