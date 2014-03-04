@@ -18,8 +18,9 @@
 @property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
 @property (weak, nonatomic) IBOutlet UILabel *errorLabel;
 @property (strong, nonatomic) NSMutableArray *gestureRecognizers;
-@property (nonatomic) NSUInteger cardCount;
-@property (nonatomic) NSUInteger unmatchedCardCount;
+@property (nonatomic) NSUInteger cardCount; // number of cards on the board
+@property (nonatomic) NSUInteger cardCountFromLastRound; // number of carryover cards
+@property (nonatomic) NSUInteger unmatchedCardCount; // number of unmatched cards left in the game
 @property (strong, nonatomic) Grid *grid;
 @property (strong, nonatomic) UIDynamicAnimator *animator;
 @property (nonatomic) BOOL cardsGathered;
@@ -87,6 +88,7 @@
     // place cards in cardspace (reusable)
     
     self.cardCount = STARTING_CARDS;
+    self.cardCountFromLastRound = 0;
     self.unmatchedCardCount = TOTAL_CARDS;
     self.cardsGathered = NO;
     
@@ -153,11 +155,11 @@
                 cardView.frame = [self.grid frameOfCellAtRow:row inColumn:col];
                 
                 // place in cell
-                cardView.center = CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height);
+                cardView.center = CGPointMake(0, self.view.frame.size.height);
                 CGPoint gridCenter = [self.grid centerOfCellAtRow:row inColumn:col];
                 CGPoint newCenter = CGPointMake(gridCenter.x + bufferX * col, gridCenter.y + bufferY * row);
-                if (true) {
-                    [UIView animateWithDuration:0.5 delay:0.1 * cardsPlaced options:UIViewAnimationOptionCurveLinear animations:^{
+                if (cardsPlaced >= self.cardCountFromLastRound) {
+                    [UIView animateWithDuration:0.5 delay:0.1 * (cardsPlaced - self.cardCountFromLastRound) options:UIViewAnimationOptionCurveLinear animations:^{
                         cardView.center = newCenter;
                     } completion:^(BOOL ended){}];
                 } else {
@@ -227,15 +229,9 @@
 
 #pragma mark - Dynamic animation
 
-- (void)dynamicAnimatorDidPause:(UIDynamicAnimator *)animator
-{
-    
-}
+- (void)dynamicAnimatorDidPause:(UIDynamicAnimator *)animator {}
 
-- (void)dynamicAnimatorWillResume:(UIDynamicAnimator *)animator
-{
-    
-}
+- (void)dynamicAnimatorWillResume:(UIDynamicAnimator *)animator {}
 
 #pragma mark - Miscellaneous
 
@@ -249,6 +245,7 @@
 - (IBAction)moreCards:(UIButton *)sender {
     if (self.cardCount < self.unmatchedCardCount) {
         self.cardCount += 3;
+        self.cardCountFromLastRound = self.cardCount - 3;
         [self placeCardsInGrid];
     } else {
         self.errorLabel.text = @"No more cards!";
@@ -260,6 +257,7 @@
     self.gestureRecognizers = nil;
     self.grid = nil;
     self.setCardViews = nil;
+    self.scoreLabel.text = @"Score: 0";
     self.errorLabel.text = @"";
     for (SetCardView *subview in self.cardSpace.subviews) {
         [UIView transitionWithView:subview duration:0.7 options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
