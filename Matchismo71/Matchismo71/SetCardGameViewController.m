@@ -66,6 +66,7 @@
 #pragma mark - View initialization
 
 #define STARTING_CARDS 12
+#define TOTAL_CARDS 81
 #define CELL_ASPECT_RATIO 1.5
 
 - (void)viewDidLoad
@@ -86,13 +87,15 @@
     // place cards in cardspace (reusable)
     
     self.cardCount = STARTING_CARDS;
-    self.unmatchedCardCount = 81;
+    self.unmatchedCardCount = TOTAL_CARDS;
     self.cardsGathered = NO;
     
-    for (int i = 0; i < 81; i++) {
+    for (int i = 0; i < TOTAL_CARDS; i++) {
         SetCardView *cardView = [[SetCardView alloc] init];
         [self.setCardViews addObject:cardView];
     }
+    
+    [self.view addGestureRecognizer:[[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinch:)]];
     
     for (SetCardView *cardView in self.setCardViews) {
         SetCard *card = (SetCard *)[self.game cardAtIndex:[self.setCardViews indexOfObject:cardView]];
@@ -148,9 +151,19 @@
                 }
                 // set size
                 cardView.frame = [self.grid frameOfCellAtRow:row inColumn:col];
+                
                 // place in cell
+                cardView.center = CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height);
                 CGPoint gridCenter = [self.grid centerOfCellAtRow:row inColumn:col];
-                cardView.center = CGPointMake(gridCenter.x + bufferX * col, gridCenter.y + bufferY * row);
+                CGPoint newCenter = CGPointMake(gridCenter.x + bufferX * col, gridCenter.y + bufferY * row);
+                if (true) {
+                    [UIView animateWithDuration:0.5 delay:0.1 * cardsPlaced options:UIViewAnimationOptionCurveLinear animations:^{
+                        cardView.center = newCenter;
+                    } completion:^(BOOL ended){}];
+                } else {
+                    cardView.center = newCenter;
+                }
+
                 // add to the board
                 [self.cardSpace addSubview:cardView];
             
@@ -159,7 +172,11 @@
             }
         }
     }
-
+    
+    [self.animator removeAllBehaviors];
+    for (SetCardView *cardView in self.cardSpace.subviews) {
+        [self.animator addBehavior:[[UIAttachmentBehavior alloc] initWithItem:cardView attachedToAnchor:self.cardSpace.center]];
+    }
 }
 
 #pragma mark - Gestures
@@ -167,7 +184,8 @@
 - (void)tap:(UITapGestureRecognizer *)sender
 {
     if (self.cardsGathered) {
-        
+        [self placeCardsInGrid];
+        self.cardsGathered = NO;
     } else {
         //    NSLog(@"tapped");
         int chosenButtonIndex = [self.gestureRecognizers indexOfObject:sender];
@@ -197,8 +215,14 @@
 
 - (void)pinch:(UIPinchGestureRecognizer *)sender
 {
-    CGPoint center = self.cardSpace.center;
-    
+    self.cardsGathered = YES;
+    if ((sender.state == UIGestureRecognizerStateChanged) ||
+        (sender.state == UIGestureRecognizerStateEnded)) {
+        for (UIAttachmentBehavior *attachment in self.animator.behaviors) {
+            attachment.length *= sender.scale;
+        }
+        sender.scale = 1.0;
+    }
 }
 
 #pragma mark - Dynamic animation
@@ -238,7 +262,11 @@
     self.setCardViews = nil;
     self.errorLabel.text = @"";
     for (SetCardView *subview in self.cardSpace.subviews) {
-        [subview removeFromSuperview];
+        [UIView transitionWithView:subview duration:0.7 options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
+            subview.alpha = 0.0;
+        }completion:^(BOOL ended) {
+            [subview removeFromSuperview];
+        }];
     }
     [self initializeCards];
 }
