@@ -254,9 +254,9 @@
 
 - (IBAction)redeal {
     self.game = nil;
-    self.gestureRecognizers = nil;
     self.grid = nil;
     self.setCardViews = nil;
+    self.gestureRecognizers = nil;
     self.scoreLabel.text = @"Score: 0";
     self.errorLabel.text = @"";
     for (SetCardView *subview in self.cardSpace.subviews) {
