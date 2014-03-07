@@ -131,6 +131,7 @@
     self.grid.size = self.cardSpace.frame.size;
     self.grid.minimumNumberOfCells = self.cardCount;
     self.grid.maxCellWidth = self.cardSpace.frame.size.width/3;
+    self.grid.maxCellHeight = self.cardSpace.frame.size.height/3;
     
     // calculate buffer space between cards
     float freespaceX = fmodf(self.cardSpace.frame.size.width, self.grid.cellSize.width);
