@@ -63,14 +63,14 @@
     
     [roundedRect addClip];
     
-    [[UIColor whiteColor] setFill];
+    [[UIColor colorWithWhite:0.85 alpha:0.95] setFill];
     UIRectFill(self.bounds);
     
     [[UIColor blackColor] setStroke];
     [roundedRect stroke];
 
     if (self.selected) {
-        [[UIColor yellowColor] setStroke];
+        [[UIColor orangeColor] setStroke];
         [roundedRect stroke];
     }
 

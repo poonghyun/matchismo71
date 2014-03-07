@@ -39,7 +39,7 @@
                                     <constraint firstAttribute="width" constant="91" id="yZF-tY-fWL"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KBD-4x-zhJ">
@@ -68,11 +68,11 @@
                                     <constraint firstAttribute="height" constant="21" id="bfK-G8-b6V"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" red="0.40000000596046448" green="0.80000001192092896" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.50196081399917603" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="YWi-gb-KIa" firstAttribute="top" secondItem="ypE-eQ-Agw" secondAttribute="bottom" constant="20" id="2Kw-bN-D47"/>
                             <constraint firstItem="PTG-13-Gof" firstAttribute="top" secondItem="Bhx-cB-28F" secondAttribute="bottom" constant="64" id="2t0-OO-as5"/>
